@@ -1,0 +1,416 @@
+
+Problem statement :
+Create the University Database having following specifications :
+	1. Department table( dept_no, dept_name, building_name )
+		Apply Unique constraint on name field.
+create table Department(dept_no int,dept_name varchar(15),bldg_name varchar(15),unique(dept_name)); 
+Query OK, 0 rows affected (0.10 sec) 
+ desc Department; 
++-----------+-------------+------+-----+---------+-------+ 
+| Field     | Type        | Null | Key | Default | Extra | 
++-----------+-------------+------+-----+---------+-------+ 
+| dept_no   | int(11)     | YES  |     | NULL    |       | 
+| dept_name | varchar(15) | YES  | UNI | NULL    |       | 
+| bldg_name | varchar(15) | YES  |     | NULL    |       | 
++-----------+-------------+------+-----+---------+-------+ 
+3 rows in set (0.02 sec) 
+	2. Instructor table( ins_id, ins_name, dept_no, salary, mob_no )
+		Apply NOT NULL constraint on name field.
+ create table instructor(ins_id int,ins_name varchar(15) not null,dept_no int,salary int,mob_no int,primary key(ins_id)); 
+Query OK, 0 rows affected (0.05 sec) 
+
+mysql> desc instructor; 
++----------+-------------+------+-----+---------+-------+ 
+| Field    | Type        | Null | Key | Default | Extra | 
++----------+-------------+------+-----+---------+-------+ 
+| ins_id   | int(11)     | NO   | PRI | 0       |       | 
+| ins_name | varchar(15) | NO   |     | NULL    |       | 
+| dept_no  | int(11)     | YES  |     | NULL    |       | 
+| salary   | int(11)     | YES  |     | NULL    |       | 
+| mob_no   | int(11)     | YES  |     | NULL    |       | 
++----------+-------------+------+-----+---------+-------+ 
+5 rows in set (0.00 sec) 
+
+3. Course table( course_id, title, dept_no, credits )
+ create table course(course_id int,title varchar(15),dept_no int,credits int,primary key(course_id)); 
+Query OK, 0 rows affected (0.05 sec) 
+
+mysql> desc course; 
++-----------+-------------+------+-----+---------+-------+ 
+| Field     | Type        | Null | Key | Default | Extra | 
++-----------+-------------+------+-----+---------+-------+ 
+| course_id | int(11)     | NO   | PRI | 0       |       | 
+| title     | varchar(15) | YES  |     | NULL    |       | 
+| dept_no   | int(11)     | YES  |     | NULL    |       | 
+| credits   | int(11)     | YES  |     | NULL    |       | 
++-----------+-------------+------+-----+---------+-------+ 
+4 rows in set (0.00 sec) 
+4. Teaches table( teacher_id, course_id, semester, year )
+create table teachers(teacher_id int,course_id int,semester int,year year,foreign key (teacher_id) references instructor(ins_id),foreign key (course_id) references course(course_id)); 
+Query OK, 0 rows affected (0.10 sec) 
+
+mysql> desc teachers; 
++------------+---------+------+-----+---------+-------+ 
+| Field      | Type    | Null | Key | Default | Extra | 
++------------+---------+------+-----+---------+-------+ 
+| teacher_id | int(11) | YES  | MUL | NULL    |       | 
+| course_id  | int(11) | YES  | MUL | NULL    |       | 
+| semester   | int(11) | YES  |     | NULL    |       | 
+| year       | year(4) | YES  |     | NULL    |       | 
++------------+---------+------+-----+---------+-------+ 
+4 rows in set (0.00 sec) 
+
+
+ Quieries :
+	1	Add the primary key in department table.
+alter table Department add primary key(dept_no); 
+Query OK, 0 rows affected (0.15 sec) 
+Records: 0  Duplicates: 0  Warnings: 0 
+
+mysql> desc Department; 
++-----------+-------------+------+-----+---------+-------+ 
+| Field     | Type        | Null | Key | Default | Extra | 
++-----------+-------------+------+-----+---------+-------+ 
+| dept_no   | int(11)     | NO   | PRI | 0       |       | 
+| dept_name | varchar(15) | YES  | UNI | NULL    |       | 
+| bldg_name | varchar(15) | YES  |     | NULL    |       | 
++-----------+-------------+------+-----+---------+-------+ 
+3 rows in set (0.00 sec) 
+
+	1	Add the foreign key in instructor table.
+       alter table instructor add foreign key(dept_no) references Department(dept_no); 
+Query OK, 0 rows affected (0.14 sec) 
+Records: 0  Duplicates: 0  Warnings: 0 
+
+mysql> desc instructor; 
++----------+-------------+------+-----+---------+-------+ 
+| Field    | Type        | Null | Key | Default | Extra | 
++----------+-------------+------+-----+---------+-------+ 
+| ins_id   | int(11)     | NO   | PRI | 0       |       | 
+| ins_name | varchar(15) | NO   |     | NULL    |       | 
+| dept_no  | int(11)     | YES  | MUL | NULL    |       | 
+| salary   | int(11)     | YES  |     | NULL    |       | 
+| mob_no   | int(11)     | YES  |     | NULL    |       | 
++----------+-------------+------+-----+---------+-------+ 
+5 rows in set (0.00 sec) 
+
+	1	Modify the table department by adding a column budget.
+    alter table Department add column budget int; 
+Query OK, 3 rows affected (0.16 sec) 
+Records: 3  Duplicates: 0  Warnings: 0 
+ 
+mysql> select * from Department; 
++---------+-----------+-----------+--------+ 
+| dept_no | dept_name | bldg_name | budget | 
++---------+-----------+-----------+--------+ 
+|       1 | comp      | A         |   NULL | 
+|       2 | mech      | B         |   NULL | 
+|       3 | IT        | C         |   NULL | 
++---------+-----------+-----------+--------+ 
+3 rows in set (0.00 sec) 
+	1	Create unique index on mobile number of instructor table.
+create unique index sr on instructor(mob_no); 
+Query OK, 0 rows affected (0.11 sec) 
+Records: 0  Duplicates: 0  Warnings: 0 
+desc instructor; 
++----------+-------------+------+-----+---------+-------+ 
+| Field    | Type        | Null | Key | Default | Extra | 
++----------+-------------+------+-----+---------+-------+ 
+| ins_id   | int(11)     | NO   | PRI | 0       |       | 
+| ins_name | varchar(15) | NO   |     | NULL    |       | 
+| dept_no  | int(11)     | YES  | MUL | NULL    |       | 
+| salary   | int(11)     | YES  |     | NULL    |       | 
+| mob_no   | int(11)     | YES  | UNI | NULL    |       | 
++----------+-------------+------+-----+---------+-------+ 
+5 rows in set (0.00 sec) 
+	1	Create a view of instructor relation except the salary field.
+ create view inst_view as select ins_id,ins_name,dept_no,mob_no from instructor; 
+Query OK, 0 rows affected (0.05 sec) 
+
+mysql> select * from inst_view; 
++--------+----------+---------+--------+ 
+| ins_id | ins_name | dept_no | mob_no | 
++--------+----------+---------+--------+ 
+|      1 | A        |       1 |  10020 | 
+|      2 | B        |       2 |  11220 | 
+|      3 | C        |       3 |  11020 | 
++--------+----------+---------+--------+ 
+3 rows in set (0.01 sec) 
+	1	Insert record into instructor table using newly created viewname.
+ insert into Department values(4,"Elect","D",null); 
+Query OK, 1 row affected (0.04 sec) 
+
+mysql> select * from Department; 
++---------+-----------+-----------+--------+ 
+| dept_no | dept_name | bldg_name | budget | 
++---------+-----------+-----------+--------+ 
+|       1 | comp      | A         |   NULL | 
+|       2 | mech      | B         |   NULL | 
+|       3 | IT        | C         |   NULL | 
+|       4 | Elect     | D         |   NULL | 
++---------+-----------+-----------+--------+ 
+4 rows in set (0.00 sec) 
+
+mysql> select * from inst_view; 
++--------+----------+---------+--------+ 
+| ins_id | ins_name | dept_no | mob_no | 
++--------+----------+---------+--------+ 
+|      1 | A        |       1 |  10020 | 
+|      2 | B        |       2 |  11220 | 
+|      3 | C        |       3 |  11020 | 
++--------+----------+---------+--------+ 
+3 rows in set (0.00 sec) 
+
+mysql> insert into inst_view values(4,"D",4,12000); 
+Query OK, 1 row affected (0.04 sec) 
+
+mysql> select * from inst_view; 
++--------+----------+---------+--------+ 
+| ins_id | ins_name | dept_no | mob_no | 
++--------+----------+---------+--------+ 
+|      1 | A        |       1 |  10020 | 
+|      2 | B        |       2 |  11220 | 
+|      3 | C        |       3 |  11020 | 
+|      4 | D        |       4 |  12000 | 
++--------+----------+---------+--------+ 
+4 rows in set (0.00 sec) 
+	1	Update the department number of particular instructor using update view.
+update inst_view set dept_no=2 where ins_id=4; 
+Query OK, 1 row affected (0.04 sec) 
+Rows matched: 1  Changed: 1  Warnings: 0 
+
+mysql> select * from inst_view; 
++--------+----------+---------+--------+ 
+| ins_id | ins_name | dept_no | mob_no | 
++--------+----------+---------+--------+ 
+|      1 | A        |       1 |  10020 | 
+|      2 | B        |       2 |  11220 | 
+|      3 | C        |       3 |  11020 | 
+|      4 | D        |       2 |  12000 | 
++--------+----------+---------+--------+ 
+4 rows in set (0.00 sec)
+	1	Delete record of particular instructor from instructor table using newly created viewname.
+delete from inst_view where ins_id=4; 
+Query OK, 1 row affected (0.04 sec) 
+
+mysql> select * from inst_view; 
++--------+----------+---------+--------+ 
+| ins_id | ins_name | dept_no | mob_no | 
++--------+----------+---------+--------+ 
+|      1 | A        |       1 |  10020 | 
+|      2 | B        |       2 |  11220 | 
+|      3 | C        |       3 |  11020 | 
++--------+----------+---------+--------+ 
+3 rows in set (0.00 sec) 
+	1	Delete the last view.
+ drop view inst_view; 
+Query OK, 0 rows affected (0.00 sec) 
+
+mysql> select * from inst_view; 
+ERROR 1146 (42S02): Table 'University245.inst_view' doesn't exist 
+	1	Remove the Budget from department table.
+alter table Department drop budget; 
+Query OK, 4 rows affected (0.16 sec) 
+Records: 4  Duplicates: 0  Warnings: 0 
+
+mysql> select * from Department;; 
++---------+-----------+-----------+ 
+| dept_no | dept_name | bldg_name | 
++---------+-----------+-----------+ 
+|       1 | comp      | A         | 
+|       2 | mech      | B         | 
+|       3 | IT        | C         | 
+|       4 | Elect     | D         | 
++---------+-----------+-----------+ 
+4 rows in set (0.00 sec) 
+
+	1	Increase the size of the title field of course relation.
+alter table course modify title varchar(20); 
+Query OK, 3 rows affected (0.17 sec) 
+Records: 3  Duplicates: 0  Warnings: 0 
+
+mysql> desc course; 
++-----------+-------------+------+-----+---------+-------+ 
+| Field     | Type        | Null | Key | Default | Extra | 
++-----------+-------------+------+-----+---------+-------+ 
+| course_id | int(11)     | NO   | PRI | 0       |       | 
+| title     | varchar(20) | YES  |     | NULL    |       | 
+| dept_no   | int(11)     | YES  |     | NULL    |       | 
+| credits   | int(11)     | YES  |     | NULL    |       | 
++-----------+-------------+------+-----+---------+-------+ 
+4 rows in set (0.00 sec) 
+	1	Create a view by showing a instructor name with a department name and its salary.
+ create view newview1 as select ins_name,dept_name,salary from instructor,Department where instructor.dept_no=Department.dept_no; 
+Query OK, 0 rows affected (0.04 sec) 
+
+mysql> select * from newview1; 
++----------+-----------+--------+ 
+| ins_name | dept_name | salary | 
++----------+-----------+--------+ 
+| A        | comp      |  10000 | 
+| B        | mech      |  12000 | 
+| C        | IT        |  10500 | 
++----------+-----------+--------+ 
+3 rows in set (0.00 sec)
+	1	Update salary of particular instructor using update view.
+update newview1 set salary=11000 where ins_name="C"; 
+Query OK, 1 row affected (0.04 sec) 
+Rows matched: 1  Changed: 1  Warnings: 0 
+
+mysql> select * from instructor; 
++--------+----------+---------+--------+--------+ 
+| ins_id | ins_name | dept_no | salary | mob_no | 
++--------+----------+---------+--------+--------+ 
+|      1 | A        |       1 |  10000 |  10020 | 
+|      2 | B        |       2 |  12000 |  11220 | 
+|      3 | C        |       3 |  11000 |  11020 | 
++--------+----------+---------+--------+--------+ 
+3 rows in set (0.00 sec) 
+	1	Delete the index from the instructor table.
+alter table instructor drop index sr; 
+Query OK, 0 rows affected (0.09 sec) 
+Records: 0  Duplicates: 0  Warnings: 0 
+
+mysql> desc instructor; 
++----------+-------------+------+-----+---------+-------+ 
+| Field    | Type        | Null | Key | Default | Extra | 
++----------+-------------+------+-----+---------+-------+ 
+| ins_id   | int(11)     | NO   | PRI | 0       |       | 
+| ins_name | varchar(15) | NO   |     | NULL    |       | 
+| dept_no  | int(11)     | YES  | MUL | NULL    |       | 
+| salary   | int(11)     | YES  |     | NULL    |       | 
+| mob_no   | int(11)     | YES  |     | NULL    |       | 
++----------+-------------+------+-----+---------+-------+ 
+5 rows in set (0.00 sec) 
+	1	Rename the course table to another table name.
+rename table course to coursetable; 
+Query OK, 0 rows affected (0.04 sec) 
+
+mysql> desc coursetable; 
++-----------+-------------+------+-----+---------+-------+ 
+| Field     | Type        | Null | Key | Default | Extra | 
++-----------+-------------+------+-----+---------+-------+ 
+| course_id | int(11)     | NO   | PRI | 0       |       | 
+| title     | varchar(20) | YES  |     | NULL    |       | 
+| dept_no   | int(11)     | YES  |     | NULL    |       | 
+| credits   | int(11)     | YES  |     | NULL    |       | 
++-----------+-------------+------+-----+---------+-------+ 
+4 rows in set (0.01 sec) 
+ 
+	1	Create a view by showing a instructor name and title of course he teaches.
+create view newview2 as select ins_name,title from instructor,coursetable where instructor.dept_no=coursetable.dept_no; 
+Query OK, 0 rows affected (0.04 sec) 
+
+mysql> select * from newview2; 
+Empty set (0.00 sec)
+
+	1	Delete the primary key from the department table.
+
+show create table instructor; 
++------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+ 
+| Table      | Create Table                                                                                                                                                                                                                                                                                                                                                                                           | 
++------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+ 
+| instructor | CREATE TABLE `instructor` ( 
+  `ins_id` int(11) NOT NULL DEFAULT '0', 
+  `ins_name` varchar(15) NOT NULL, 
+  `dept_no` int(11) DEFAULT NULL, 
+  `salary` int(11) DEFAULT NULL, 
+  `mob_no` int(11) DEFAULT NULL, 
+  PRIMARY KEY (`ins_id`), 
+  KEY `dept_no` (`dept_no`), 
+  CONSTRAINT `instructor_ibfk_1` FOREIGN KEY (`dept_no`) REFERENCES `Department` (`dept_no`) 
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 | 
++------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+ 
+1 row in set (0.00 sec) 
+
+mysql> alter table instructor drop foreign key instructor_ibfk_1; 
+Query OK, 3 rows affected (0.17 sec) 
+Records: 3  Duplicates: 0  Warnings: 0 
+
+mysql> desc instructor; 
++----------+-------------+------+-----+---------+-------+ 
+| Field    | Type        | Null | Key | Default | Extra | 
++----------+-------------+------+-----+---------+-------+ 
+| ins_id   | int(11)     | NO   | PRI | 0       |       | 
+| ins_name | varchar(15) | NO   |     | NULL    |       | 
+| dept_no  | int(11)     | YES  | MUL | NULL    |       | 
+| salary   | int(11)     | YES  |     | NULL    |       | 
+| mob_no   | int(11)     | YES  |     | NULL    |       | 
++----------+-------------+------+-----+---------+-------+ 
+5 rows in set (0.01 sec) 
+
+mysql> desc Department; 
++-----------+-------------+------+-----+---------+-------+ 
+| Field     | Type        | Null | Key | Default | Extra | 
++-----------+-------------+------+-----+---------+-------+ 
+| dept_no   | int(11)     | NO   | PRI | 0       |       | 
+| dept_name | varchar(15) | YES  | UNI | NULL    |       | 
+| bldg_name | varchar(15) | YES  |     | NULL    |       | 
++-----------+-------------+------+-----+---------+-------+ 
+3 rows in set (0.01 sec) 
+ 
+mysql> alter table Department drop primary key; 
+Query OK, 4 rows affected (0.18 sec) 
+Records: 4  Duplicates: 0  Warnings: 0 
+
+mysql> desc Department; 
++-----------+-------------+------+-----+---------+-------+ 
+| Field     | Type        | Null | Key | Default | Extra | 
++-----------+-------------+------+-----+---------+-------+ 
+| dept_no   | int(11)     | NO   |     | 0       |       | 
+| dept_name | varchar(15) | YES  | UNI | NULL    |       | 
+| bldg_name | varchar(15) | YES  |     | NULL    |       | 
++-----------+-------------+------+-----+---------+-------+ 
+3 rows in set (0.00 sec) 
+18 create the table student having field student id,student name,dept_no,birth    date. student id should be auto_increment. Dept_no is foreign key.
+alter table Department add primary key(dept_no);
+Query OK, 0 rows affected (0.18 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+create table Student(stud_id int auto_increment,stud_name varchar(10),dept_no int,DOB date,foreign key(dept_no) references Department(dept_no),primary key(stud_id));
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> desc Student;
++-----------+-------------+------+-----+---------+----------------+
+| Field     | Type        | Null | Key | Default | Extra          |
++-----------+-------------+------+-----+---------+----------------+
+| stud_id   | int(11)     | NO   | PRI | NULL    | auto_increment |
+| stud_name | varchar(10) | YES  |     | NULL    |                |
+| dept_no   | int(11)     | YES  | MUL | NULL    |                |
+| DOB       | date        | YES  |     | NULL    |                |
++-----------+-------------+------+-----+---------+----------------+
+4 rows in set (0.00 sec)
+19 Change the sequence of your auto increment field.
+select * from Student;
++---------+-----------+---------+------------+
+| stud_id | stud_name | dept_no | DOB        |
++---------+-----------+---------+------------+
+|       1 | AB        |       1 | 1997-04-12 |
+|       2 | CD        |       3 | 1996-06-12 |
+|       3 | EF        |       2 | 1998-09-25 |
++---------+-----------+---------+------------+
+3 rows in set (0.01 sec)
+alter table Student auto_increment=5;
+Query OK, 0 rows affected (0.13 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+ select * from Student;
++---------+-----------+---------+------------+
+| stud_id | stud_name | dept_no | DOB        |
++---------+-----------+---------+------------+
+|       1 | AB        |       1 | 1997-04-12 |
+|       2 | CD        |       3 | 1996-06-12 |
+|       3 | EF        |       2 | 1998-09-25 |
+|      10 | GH        |       2 | 1995-09-25 |
++---------+-----------+---------+------------+
+4 rows in set (0.00 sec)
+20 Create the view of computer department teachers name who teaches in 5th semester.
+create view new1 as select dept_name,semester,ins_name from Department,teachers,instructor where teachers.semester=2 and Department.dept_name="comp" and instructor.ins_id=teachers.teacher_id and instructor.dept_no=Department.dept_no;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> select * from new1;
++-----------+----------+----------+
+| dept_name | semester | ins_name |
++-----------+----------+----------+
+| comp      |        2 | A        |
++-----------+----------+----------+
+1 row in set (0.00 sec)

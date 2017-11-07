@@ -1,0 +1,248 @@
+import java.sql.*;
+import java.util.*;
+
+publicclass JdbcConnect {
+
+	
+	publicstaticvoid main(String[] args) {
+		try {
+			Scanner scan=new Scanner(System.in);
+			Class.forName("com.mysql.jdbc.Driver");
+			String url="jdbc:mysql://localhost:3306/temp";
+			Connection con=DriverManager.getConnection(url,"root","root123");
+			
+			Statement st=con.createStatement();
+			ResultSet rs;
+			PreparedStatement ps;
+			
+			String name="";
+			int roll,marks = 0;
+			boolean flag=false;
+			int i;
+			while(true)
+			  {
+				  System.out.println("\n1.Insert\n2.Display\n3.Search\n4.Update\n5.Delete\n6.Exit\nEnter your choice:");
+				  i=scan.nextInt();
+				switch(i)
+				  {
+				case 1:String sql="insert into t values(?,?,?)";
+					ps=con.prepareStatement(sql);
+					System.out.print("Enter roll no:");
+					roll=scan.nextInt();
+					System.out.print("\nEnter name:");
+					name=scan.next();
+					System.out.print("\nEnter marks:");
+					marks=scan.nextInt();
+					ps.setInt(1,roll);
+					ps.setString(2, name);
+					ps.setInt(3, marks);
+					ps.executeUpdate();
+					break;
+				case 2:flag=false;
+					rs=st.executeQuery("Select * from t");
+					while(rs.next())
+						System.out.println("Roll:"+rs.getInt(1)+"Name:"+rs.getString(2)+"Marks:"+rs.getInt(3));
+					break;
+				case 3: System.out.print("Enter roll no to be searched:");
+					roll=scan.nextInt();
+					st=con.createStatement();
+					rs=st.executeQuery("Select * from t");
+					while(rs.next())
+						{
+						if(rs.getInt(1)==roll)
+						   {
+							   System.out.println("Record found :");
+							
+							   flag=true;
+						   }
+						}
+					if(!flag)
+					{
+						System.out.println("Record not found :");
+					}
+					break;
+					
+				case 4:flag=false;
+					  System.out.print("Enter roll no to be updated:");
+					roll=scan.nextInt();
+					st=con.createStatement();
+					rs=st.executeQuery("Select * from t");
+					while(rs.next())
+						{
+						if(rs.getInt(1)==roll)
+						   {
+							   System.out.println("Record found :");
+							   String que="update t set roll=?,name=?,marks=? where roll="+roll+"";
+							   ps=con.prepareStatement(que);
+							
+							
+							   System.out.print("Enter roll no:");
+								roll=scan.nextInt();
+								System.out.print("\nEnter name:");
+								name=scan.next();
+								System.out.print("\nEnter marks:");
+								marks=scan.nextInt();
+								
+								ps.setInt(1,roll);
+								ps.setString(2,name);
+								ps.setInt(3, marks);
+								
+								ps.executeUpdate();
+							   flag=true;
+						   }
+						}
+					if(!flag)
+					{
+						System.out.println("Record not found :");
+					}
+
+				
+					break;
+					
+					
+				case 5:flag=false;
+					  System.out.print("Enter roll no to be deleted:");
+					roll=scan.nextInt();
+					st=con.createStatement();
+					rs=st.executeQuery("Select * from t");
+					while(rs.next())
+						{
+						if(rs.getInt(1)==roll)
+						   {
+							   System.out.println("Record found :");
+							   String query="delete from t where roll=?";
+							   ps=con.prepareStatement(query);
+							   ps.setInt(1, roll);
+							   ps.execute();
+							   flag=true;
+						   }
+						}
+					if(!flag)
+					{
+						System.out.println("Record not found :");
+					}
+					break;
+					
+				case 6:return;
+				
+				  }
+			  }
+			
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+
+	}
+
+}
+/*
+
+1.Insert
+2.Display
+3.Search
+4.Update
+5.Delete
+6.Exit
+Enter your choice:
+1
+Enter roll no:1
+
+Enter name:Rihan
+
+Enter marks:34
+
+1.Insert
+2.Display
+3.Search
+4.Update
+5.Delete
+6.Exit
+Enter your choice:
+1
+Enter roll no:5
+
+Enter name:Priya
+
+Enter marks:67
+
+1.Insert
+2.Display
+3.Search
+4.Update
+5.Delete
+6.Exit
+Enter your choice:
+2
+Roll:1Name:RihanMarks:34
+Roll:5Name:PriyaMarks:67
+
+1.Insert
+2.Display
+3.Search
+4.Update
+5.Delete
+6.Exit
+Enter your choice:
+
+3
+Enter roll no to be searched:5
+Record found :
+
+1.Insert
+2.Display
+3.Search
+4.Update
+5.Delete
+6.Exit
+Enter your choice:
+4
+Enter roll no to be updated:1
+Record found :
+Enter roll no:6
+
+Enter name:Rihan
+
+Enter marks:56
+
+1.Insert
+2.Display
+3.Search
+4.Update
+5.Delete
+6.Exit
+Enter your choice:
+2
+Roll:6Name:RihanMarks:56
+Roll:5Name:PriyaMarks:67
+
+1.Insert
+2.Display
+3.Search
+4.Update
+5.Delete
+6.Exit
+Enter your choice:
+5
+Enter roll no to be deleted:5
+Record found :
+
+1.Insert
+2.Display
+3.Search
+4.Update
+5.Delete
+6.Exit
+Enter your choice:
+2
+Roll:6Name:RihanMarks:56
+
+1.Insert
+2.Display
+3.Search
+4.Update
+5.Delete
+6.Exit
+Enter your choice:
+6
+*/

@@ -1,0 +1,241 @@
+Employee(EmpNo, Ename ,Designation ,Join date ,Salary , DeptNo, Phone no)
+Department(DeptNo, Department, BuildingName)
+	•	Create database and show all databases
+create database EMP; 
+use EMP; 
+Database changed 
+
+show databases; 
++--------------------+ 
+| Database           | 
++--------------------+ 
+| information_schema | 
+| A245               | 
+| EMP                | 
+| Emp057             | 
+| Emp57              | 
+| SKN_COMP           | 
+| mysql              | 
+| performance_schema |
+
+
+	•	Create table and show all table
+create table Employee(EMPNO int(10),ENAME varchar(15),DESIGNATION VARCHAR(15),JOINDATE DATE,SAL INT(10),DEPTNO int(10),PHONENO INT(10)); 
+create table Department(DEPTNO INT(10),DEPARTMENT VARCHAR(15),BLDGNAME VARCHAR(15)); 
+SHOW TABLES 
+    -> ; 
++---------------+ 
+| Tables_in_EMP | 
++---------------+ 
+| Department    | 
+| Employee      |
+
+	•	Show structure of table
+ DESC Employee; 
++-------------+-------------+------+-----+---------+-------+ 
+| Field       | Type        | Null | Key | Default | Extra | 
++-------------+-------------+------+-----+---------+-------+ 
+| EMPNO       | int(10)     | YES  |     | NULL    |       | 
+| ENAME       | varchar(15) | YES  |     | NULL    |       | 
+| DESIGNATION | varchar(15) | YES  |     | NULL    |       | 
+| JOINDATE    | date        | YES  |     | NULL    |       | 
+| SAL         | int(10)     | YES  |     | NULL    |       | 
+| DEPTNO      | int(10)     | YES  |     | NULL    |       | 
+| PHONENO     | int(10)     | YES  |     | NULL    |       | 
++-------------+-------------+------+-----+---------+-------+ 
+
+ desc Department; 
++------------+-------------+------+-----+---------+-------+ 
+| Field      | Type        | Null | Key | Default | Extra | 
++------------+-------------+------+-----+---------+-------+ 
+| DEPTNO     | int(10)     | YES  |     | NULL    |       | 
+| DEPARTMENT | varchar(15) | YES  |     | NULL    |       | 
+| BLDGNAME   | varchar(15) | YES  |     | NULL    |       | 
++------------+-------------+------+-----+---------+-------+ 
+	•	Add 5 records in above table
+insert into Employee values(1,"Aryan","Manager","2013-05-22",25000,2,122545789); 
+Query OK, 1 row affected (0.04 sec) 
+
+mysql> insert into Employee values(2,"peter","Accountant","2014-06-28",20000,4,1326457809); 
+Query OK, 1 row affected (0.04 sec) 
+
+mysql> insert into Employee values(3,"Bob","Assistant","2014-02-22",10000,6,1426457509); 
+Query OK, 1 row affected (0.04 sec) 
+
+mysql> insert into Employee values(4,"Smith","Secretary","2015-06-10",12000,7,1224575098); 
+Query OK, 1 row affected (0.02 sec) 
+
+mysql> insert into Employee values(5,"Charles","Developer","2016-05-10",12056,8,1234775098); 
+Query OK, 1 row affected (0.04 sec) 
+
+insert into Department values(4,"Management","A1"); 
+Query OK, 1 row affected (0.02 sec) 
+
+mysql> insert into Department values(2,"Accounts","B2"); 
+Query OK, 1 row affected (0.04 sec) 
+
+mysql> insert into Department values(2,"Management","A2"); 
+Query OK, 1 row affected (0.03 sec) 
+
+mysql> insert into Department values(5,"Production","B1"); 
+Query OK, 1 row affected (0.04 sec) 
+
+mysql> insert into Department values(6,"Research","C1"); 
+Query OK, 1 row affected (0.02 sec)
+
+	•	Display all records
+select * from Employee; 
+EMPNO | ENAME   | DESIGNATION | JOINDATE   | SAL   | DEPTNO | PHONENO    | 
++-------+---------+-------------+------------+-------+--------+------------+ 
+|     1 | Aryan   | Manager     | 2013-05-22 | 25000 |      2 |  122545789 | 
+|     2 | peter   | Accountant  | 2014-06-28 | 20000 |      4 | 1326457809 | 
+|     3 | Bob     | Assistant   | 2014-02-22 | 10000 |      6 | 1426457509 | 
+|     4 | Smith   | Secretary   | 2015-06-10 | 12000 |      7 | 1224575098 | 
+|    11 | Charles | Developer   | 2016-05-10 | 12056 |      8 | 1234775098 | 
++-------+---------+-------------+------------+-------+--------+------------+ 
+select * from Department; 
++--------+------------+----------+ 
+| DEPTNO | DEPARTMENT | BLDGNAME | 
++--------+------------+----------+ 
+|      4 | Management | A1       | 
+|      2 | Accounts   | B2       | 
+|      2 | Management | A2       | 
+|      5 | Production | B1       | 
+|      6 | Research   | C1       | 
++--------+------------+----------+ 
+
+	•	Display all ‘Accountant’ staff
+select * from Employee where DESIGNATION="Accountant"; 
++-------+-------+-------------+------------+-------+--------+------------+ 
+| EMPNO | ENAME | DESIGNATION | JOINDATE   | SAL   | DEPTNO | PHONENO    | 
++-------+-------+-------------+------------+-------+--------+------------+ 
+|     2 | peter | Accountant  | 2014-06-28 | 20000 |      4 | 1326457809 | 
++-------+-------+-------------+------------+-------+--------+------------+ 
+1 row in set (0.00 sec) 
+
+
+	•	Delete record whose empid is 11
+delete from Employee where EMPNO=11; 
+Query OK, 1 row affected (0.03 sec) 
+ select * from Employee; 
++-------+-------+-------------+------------+-------+--------+------------+ 
+| EMPNO | ENAME | DESIGNATION | JOINDATE   | SAL   | DEPTNO | PHONENO    | 
++-------+-------+-------------+------------+-------+--------+------------+ 
+|     1 | Aryan | Manager     | 2013-05-22 | 25000 |      2 |  122545789 | 
+|     2 | peter | Accountant  | 2014-06-28 | 20000 |      4 | 1326457809 | 
+|     3 | Bob   | Assistant   | 2014-02-22 | 10000 |      6 | 1426457509 | 
+|     4 | Smith | Secretary   | 2015-06-10 | 12000 |      7 | 1224575098 | 
++-------+-------+-------------+------------+-------+--------+------------+
+	•	Delete all records from department table;
+delete from Department; 
+Query OK, 5 rows affected (0.05 sec) 
+
+	•	Increase salary of all managers by 100 rupees;
+update Employee set SAL=SAL+100 WHERE DESIGNATION="MANAGER"; 
+Query OK, 1 row affected (0.03 sec) 
+Rows matched: 1  Changed: 1  Warnings: 0 
+
+select * from Employee; 
++-------+-------+-------------+------------+-------+--------+------------+ 
+| EMPNO | ENAME | DESIGNATION | JOINDATE   | SAL   | DEPTNO | PHONENO    | 
++-------+-------+-------------+------------+-------+--------+------------+ 
+|     1 | Aryan | Manager     | 2013-05-22 | 25100 |      2 |  122545789 | 
+|     2 | peter | Accountant  | 2014-06-28 | 20000 |      4 | 1326457809 | 
+|     3 | Bob   | Assistant   | 2014-02-22 | 10000 |      6 | 1426457509 | 
+|     4 | Smith | Secretary   | 2015-06-10 | 12000 |      7 | 1224575098 | 
++-------+-------+-------------+------------+-------+--------+------------+
+	•	Add column address
+alter table Employee add column ADDRESS varchar(14); 
+Query OK, 4 rows affected (0.14 sec) 
+Records: 4  Duplicates: 0  Warnings: 0 
+
+select * from Employee; 
++-------+-------+-------------+------------+-------+--------+------------+---------+ 
+| EMPNO | ENAME | DESIGNATION | JOINDATE   | SAL   | DEPTNO | PHONENO    | ADDRESS | 
++-------+-------+-------------+------------+-------+--------+------------+---------+ 
+|     1 | Aryan | Manager     | 2013-05-22 | 25100 |      2 |  122545789 | NULL    | 
+|     2 | peter | Accountant  | 2014-06-28 | 20000 |      4 | 1326457809 | NULL    | 
+|     3 | Bob   | Assistant   | 2014-02-22 | 10000 |      6 | 1426457509 | NULL    | 
+|     4 | Smith | Secretary   | 2015-06-10 | 12000 |      7 | 1224575098 | NULL    | 
+
+	•	Add record for address
+update Employee set ADDRESS="Vadgaon" where EMPNO=1; 
+Query OK, 1 row affected (0.03 sec) 
+Rows matched: 1  Changed: 1  Warnings: 0 
+ update Employee set ADDRESS="Hadapsar" where EMPNO=2; 
+Query OK, 1 row affected (0.03 sec) 
+Rows matched: 1  Changed: 1  Warnings: 0 
+update Employee set ADDRESS="Kondhwa" where EMPNO=3; 
+Query OK, 1 row affected (0.03 sec) 
+Rows matched: 1  Changed: 1  Warnings: 0 
+update Employee set ADDRESS="FcRoad" where EMPNO=4; 
+Query OK, 1 row affected (0.04 sec) 
+Rows matched: 1  Changed: 1  Warnings: 0 
+
+ select * from Employee; 
++-------+-------+-------------+------------+-------+--------+------------+----------+ 
+| EMPNO | ENAME | DESIGNATION | JOINDATE   | SAL   | DEPTNO | PHONENO    | ADDRESS  | 
++-------+-------+-------------+------------+-------+--------+------------+----------+ 
+|     1 | Aryan | Manager     | 2013-05-22 | 25100 |      2 |  122545789 | Vadgaon  | 
+|     2 | peter | Accountant  | 2014-06-28 | 20000 |      4 | 1326457809 | Hadapsar | 
+|     3 | Bob   | Assistant   | 2014-02-22 | 10000 |      6 | 1426457509 | Kondhwa  | 
+|     4 | Smith | Secretary   | 2015-06-10 | 12000 |      7 | 1224575098 | FcRoad   | 
++-------+-------+-------------+------------+-------+--------+------------+----------
+	•	Drop column building name
+alter table Department drop BLDGNAME; 
+Query OK, 0 rows affected (0.15 sec) 
+Records: 0  Duplicates: 0  Warnings: 0 
++------------+-------------+------+-----+---------+-------+ 
+| Field      | Type        | Null | Key | Default | Extra | 
++------------+-------------+------+-----+---------+-------+ 
+| DEPTNO     | int(10)     | YES  |     | NULL    |       | 
+| DEPARTMENT | varchar(15) | YES  |     | NULL    |       | 
++------------+-------------+------+-----+---------+-------+ 
+
+	•	Change the phone number field name to contact number
+alter table Employee change PHONENO CONTACTNO int(10); 
+Query OK, 4 rows affected (0.16 sec) 
+Records: 4  Duplicates: 0  Warnings: 0 
+mysql> select * from Employee; 
++-------+-------+-------------+------------+-------+--------+------------+----------+ 
+| EMPNO | ENAME | DESIGNATION | JOINDATE   | SAL   | DEPTNO | CONTACTNO  | ADDRESS  | 
++-------+-------+-------------+------------+-------+--------+------------+----------+ 
+|     1 | Aryan | Manager     | 2013-05-22 | 25100 |      2 |  122545789 | Vadgaon  | 
+|     2 | peter | Accountant  | 2014-06-28 | 20000 |      4 | 1326457809 | Hadapsar | 
+|     3 | Bob   | Assistant   | 2014-02-22 | 10000 |      6 | 1426457509 | Kondhwa  | 
+|     4 | Smith | Secretary   | 2015-06-10 | 12000 |      7 | 1224575098 | FcRoad   | 
++-------+-------+-------------+------------+-------+--------+------------+----------
+
+
+	•	Display employ records in ascending /descending order by their salary
+select * from Employee order by SAL; 
++-------+-------+-------------+------------+-------+--------+------------+----------+ 
+| EMPNO | ENAME | DESIGNATION | JOINDATE   | SAL   | DEPTNO | CONTACTNO  | ADDRESS  | 
++-------+-------+-------------+------------+-------+--------+------------+----------+ 
+|     3 | Bob   | Assistant   | 2014-02-22 | 10000 |      6 | 1426457509 | Kondhwa  | 
+|     4 | Smith | Secretary   | 2015-06-10 | 12000 |      7 | 1224575098 | FcRoad   | 
+|     2 | peter | Accountant  | 2014-06-28 | 20000 |      4 | 1326457809 | Hadapsar | 
+|     1 | Aryan | Manager     | 2013-05-22 | 25100 |      2 |  122545789 | Vadgaon  | 
++-------+-------+-------------+------------+-------+--------+------------+----------+ 
+4 rows in set (0.00 sec) 
+
+mysql> select * from Employee order by SAL desc; 
++-------+-------+-------------+------------+-------+--------+------------+----------+ 
+| EMPNO | ENAME | DESIGNATION | JOINDATE   | SAL   | DEPTNO | CONTACTNO  | ADDRESS  | 
++-------+-------+-------------+------------+-------+--------+------------+----------+ 
+|     1 | Aryan | Manager     | 2013-05-22 | 25100 |      2 |  122545789 | Vadgaon  | 
+|     2 | peter | Accountant  | 2014-06-28 | 20000 |      4 | 1326457809 | Hadapsar | 
+|     4 | Smith | Secretary   | 2015-06-10 | 12000 |      7 | 1224575098 | FcRoad   | 
+|     3 | Bob   | Assistant   | 2014-02-22 | 10000 |      6 | 1426457509 | Kondhwa  | 
++-------+-------+-------------+------------+-------+--------+------------+----------+ 
+4 rows in set (0.00 sec) 
+
+	•	Delete department table
+ drop table Department; 
+Query OK, 0 rows affected (0.05 sec) 
+
+
+	•	Delete all records with truncate command.
+truncate table Employee; 
+Query OK, 0 rows affected (0.04 sec) 
+
